@@ -10,9 +10,13 @@ import { categories } from "@/lib/categories";
 import { Activity } from "@/types/activity";
 import { getActivities } from "@/lib/storage";
 
-const activities: Activity[] = getActivities();
-
 export default function HomePage() {
+
+  const [activities] = useState<Activity[]>(() => {
+    if (typeof window === "undefined") return [];
+    return getActivities();
+  });
+
   const [view, setView] = useState<"agenda" | "calendar">(
     "agenda",
   );
