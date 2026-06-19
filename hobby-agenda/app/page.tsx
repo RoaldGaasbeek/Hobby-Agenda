@@ -1,65 +1,140 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useMemo, useState } from "react";
+
+import ActivityCard from "@/components/ActivityCard";
+import CategoryFilter from "@/components/CategoryFilter";
+import ViewToggle from "@/components/ViewToggle";
+
+import { categories } from "@/lib/categories";
+import { Activity } from "@/types/activity";
+
+const activities: Activity[] = [
+  {
+    id: "1",
+    title: "Board Game Night",
+    date: "2026-06-20",
+    time: "19:00",
+    categoryId: "boardgames",
+  },
+  {
+    id: "2",
+    title: "Walk in the Woods",
+    date: "2026-06-21",
+    time: "10:00",
+    categoryId: "walking",
+  },
+  {
+    id: "3",
+    title: "Factorio Session",
+    date: "2026-06-22",
+    time: "20:00",
+    categoryId: "gaming",
+  },
+  {
+    id: "4",
+    title: "Personal Project",
+    date: "2026-06-22",
+    time: "18:00",
+    categoryId: "programming",
+  },
+];
+
+export default function HomePage() {
+  const [view, setView] = useState<"agenda" | "calendar">(
+    "agenda",
+  );
+
+  const [selectedCategory, setSelectedCategory] =
+    useState("all");
+
+  const filteredActivities = useMemo(() => {
+    return activities
+      .filter((activity) =>
+        selectedCategory === "all"
+          ? true
+          : activity.categoryId === selectedCategory,
+      )
+      .sort((a, b) =>
+        `${a.date}${a.time}`.localeCompare(
+          `${b.date}${b.time}`,
+        ),
+      );
+  }, [selectedCategory]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <main className="mx-auto max-w-4xl p-6">
+      <div className="mb-6">
+        <h1 className="mb-2 text-3xl font-bold">
+          Hobby Planner
+        </h1>
+
+        <p className="text-gray-600">
+          Plan and track your hobby activities.
+        </p>
+      </div>
+
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <ViewToggle
+          view={view}
+          onChange={setView}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+
+        <CategoryFilter
+          categories={categories}
+          selected={selectedCategory}
+          onSelect={setSelectedCategory}
+        />
+      </div>
+
+      {view === "agenda" ? (
+        <div className="space-y-4">
+          {filteredActivities.map((activity) => {
+            const category = categories.find(
+              (c) => c.id === activity.categoryId,
+            )!;
+
+            return (
+              <ActivityCard
+                key={activity.id}
+                activity={activity}
+                category={category}
+              />
+            );
+          })}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      ) : (
+        <div className="rounded-lg border p-4">
+          <h2 className="mb-4 text-xl font-semibold">
+            Calendar View
+          </h2>
+
+          <div className="space-y-3">
+            {filteredActivities.map((activity) => {
+              const category = categories.find(
+                (c) => c.id === activity.categoryId,
+              )!;
+
+              return (
+                <div
+                  key={activity.id}
+                  className="flex items-center gap-3"
+                >
+                  <div
+                    className={`h-3 w-3 rounded-full ${category.color}`}
+                  />
+
+                  <span className="font-medium">
+                    {activity.date}
+                  </span>
+
+                  <span>{activity.title}</span>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </main>
-    </div>
+      )}
+    </main>
   );
 }
