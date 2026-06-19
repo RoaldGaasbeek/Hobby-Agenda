@@ -10,5 +10,5 @@ export type Activity = {
   date: string;
   time: string;
   categoryId: string;
-  notes?: string;
+  description?: string;
 };

@@ -8,37 +8,9 @@ import ViewToggle from "@/components/ViewToggle";
 
 import { categories } from "@/lib/categories";
 import { Activity } from "@/types/activity";
+import { getActivities } from "@/lib/storage";
 
-const activities: Activity[] = [
-  {
-    id: "1",
-    title: "Board Game Night",
-    date: "2026-06-20",
-    time: "19:00",
-    categoryId: "boardgames",
-  },
-  {
-    id: "2",
-    title: "Walk in the Woods",
-    date: "2026-06-21",
-    time: "10:00",
-    categoryId: "walking",
-  },
-  {
-    id: "3",
-    title: "Factorio Session",
-    date: "2026-06-22",
-    time: "20:00",
-    categoryId: "gaming",
-  },
-  {
-    id: "4",
-    title: "Personal Project",
-    date: "2026-06-22",
-    time: "18:00",
-    categoryId: "programming",
-  },
-];
+const activities: Activity[] = getActivities();
 
 export default function HomePage() {
   const [view, setView] = useState<"agenda" | "calendar">(
