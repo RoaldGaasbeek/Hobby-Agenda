@@ -36,13 +36,13 @@ export default function HomePage() {
           `${b.date}${b.time}`,
         ),
       );
-  }, [selectedCategory]);
+  }, [activities, selectedCategory]);
 
   return (
     <main className="mx-auto max-w-4xl p-6">
       <div className="mb-6">
         <h1 className="mb-2 text-3xl font-bold">
-          Hobby Planner
+          Hobby Agenda
         </h1>
 
         <p className="text-gray-600">
