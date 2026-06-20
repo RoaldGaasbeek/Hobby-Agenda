@@ -13,7 +13,8 @@ export default function ActivityCard({activity, category}: Props) {
       <div className="cursor-pointer rounded-lg border p-4 transition hover:shadow">
         <div className="mb-2 flex items-center gap-2">
           <div
-            className={`h-3 w-3 rounded-full ${category.color}`}
+            className={`h-3 w-3 rounded-full`}
+            style={{ backgroundColor: category.color }}
           />
           <span className="text-sm text-gray-600">
             {category.name}

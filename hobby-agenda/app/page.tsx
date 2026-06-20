@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 
-import ActivityCard from "@/components/ActivityCard";
 import CategoryFilter from "@/components/CategoryFilter";
 import ViewToggle from "@/components/ViewToggle";
 import AgendaView from "@/components/AgendaView";

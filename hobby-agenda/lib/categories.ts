@@ -4,21 +4,21 @@ export const categories: Category[] = [
   {
     id: "gaming",
     name: "Gaming",
-    color: "bg-blue-500",
+    color: "#3B82F6",
   },
   {
     id: "walking",
     name: "Walking",
-    color: "bg-green-500",
+    color: "#22C55E",
   },
   {
     id: "boardgames",
     name: "Board Games",
-    color: "bg-purple-500",
+    color: "#A855F7",
   },
   {
     id: "programming",
     name: "Programming",
-    color: "bg-orange-500",
+    color: "#F97316",
   },
 ];

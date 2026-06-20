@@ -17,6 +17,7 @@ import { nl } from "date-fns/locale";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 import { Activity } from "@/types/activity";
+import { categories } from "@/lib/categories";
 
 const locales = {
   "nl": nl,
@@ -41,6 +42,11 @@ export default function CalendarView({ activities, }: Props) {
       `${activity.date}T${activity.time}`
     );
 
+    const category = categories.find(
+      (c) => c.id === activity.categoryId
+    );
+
+
     const end = new Date(start);
 
     end.setHours(end.getHours() + 1);
@@ -50,6 +56,7 @@ export default function CalendarView({ activities, }: Props) {
       title: activity.title,
       start,
       end,
+      color: category?.color ?? "#888888",
     };
   });
   const [date, setDate] = useState(new Date());
@@ -63,6 +70,13 @@ export default function CalendarView({ activities, }: Props) {
         endAccessor="end"
         date={date}
         onNavigate={setDate}
+
+        eventPropGetter={(event: Activity) => ({
+          style: {
+            backgroundColor: event.color,
+            borderColor: event.color,
+          },
+        })}
 
         onSelectEvent={(event: Activity) =>
           router.push(`/activity/${event.id}`)
