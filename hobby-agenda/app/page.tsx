@@ -5,6 +5,8 @@ import { useMemo, useState } from "react";
 import ActivityCard from "@/components/ActivityCard";
 import CategoryFilter from "@/components/CategoryFilter";
 import ViewToggle from "@/components/ViewToggle";
+import AgendaView from "@/components/AgendaView";
+import CalendarView from "@/components/CalendarView";
 
 import { categories } from "@/lib/categories";
 import { Activity } from "@/types/activity";
@@ -64,52 +66,14 @@ export default function HomePage() {
       </div>
 
       {view === "agenda" ? (
-        <div className="space-y-4">
-          {filteredActivities.map((activity) => {
-            const category = categories.find(
-              (c) => c.id === activity.categoryId,
-            )!;
-
-            return (
-              <ActivityCard
-                key={activity.id}
-                activity={activity}
-                category={category}
-              />
-            );
-          })}
-        </div>
+        <AgendaView
+          activities={filteredActivities}
+          categories={categories}
+        />
       ) : (
-        <div className="rounded-lg border p-4">
-          <h2 className="mb-4 text-xl font-semibold">
-            Calendar View
-          </h2>
-
-          <div className="space-y-3">
-            {filteredActivities.map((activity) => {
-              const category = categories.find(
-                (c) => c.id === activity.categoryId,
-              )!;
-
-              return (
-                <div
-                  key={activity.id}
-                  className="flex items-center gap-3"
-                >
-                  <div
-                    className={`h-3 w-3 rounded-full ${category.color}`}
-                  />
-
-                  <span className="font-medium">
-                    {activity.date}
-                  </span>
-
-                  <span>{activity.title}</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        <CalendarView
+          activities={filteredActivities}
+        />
       )}
     </main>
   );
