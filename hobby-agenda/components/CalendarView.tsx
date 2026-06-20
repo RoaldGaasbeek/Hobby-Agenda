@@ -3,6 +3,7 @@
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 import {
   format,
@@ -11,14 +12,14 @@ import {
   getDay,
 } from "date-fns";
 
-import { enUS } from "date-fns/locale";
+import { nl } from "date-fns/locale";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 import { Activity } from "@/types/activity";
 
 const locales = {
-  "en-US": enUS,
+  "nl": nl,
 };
 
 const localizer = dateFnsLocalizer({
@@ -51,6 +52,7 @@ export default function CalendarView({ activities, }: Props) {
       end,
     };
   });
+  const [date, setDate] = useState(new Date());
 
   return (
     <div className="h-[700px] rounded-lg border bg-white p-4">
@@ -59,6 +61,9 @@ export default function CalendarView({ activities, }: Props) {
         events={events}
         startAccessor="start"
         endAccessor="end"
+        date={date}
+        onNavigate={setDate}
+
         onSelectEvent={(event: Activity) =>
           router.push(`/activity/${event.id}`)
         }
