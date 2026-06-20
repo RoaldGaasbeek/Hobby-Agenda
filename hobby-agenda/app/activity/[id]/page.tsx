@@ -50,7 +50,7 @@ export default function ActivityDetailPage() {
   return (
     <main className="mx-auto max-w-2xl p-6">
       <button
-        onClick={() => router.back()}
+        onClick={() => router.push("/")}
         className="mb-6 text-sm text-blue-600"
       >
         ← Back
