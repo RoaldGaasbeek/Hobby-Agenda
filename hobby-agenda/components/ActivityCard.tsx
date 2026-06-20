@@ -1,17 +1,15 @@
-import Link from "next/link";
 import { Activity, Category } from "@/types/activity";
+import { useRouter } from "next/navigation";
 
 type Props = {
   activity: Activity;
   category: Category;
 };
 
-export default function ActivityCard({
-  activity,
-  category,
-}: Props) {
+export default function ActivityCard({activity, category}: Props) {
+  const router = useRouter();
   return (
-    <Link href={`/activity/${activity.id}`}>
+    <div onClick={() => router.push(`/activity/${activity.id}`)}>
       <div className="cursor-pointer rounded-lg border p-4 transition hover:shadow">
         <div className="mb-2 flex items-center gap-2">
           <div
@@ -28,6 +26,6 @@ export default function ActivityCard({
           {activity.date} • {activity.time}
         </p>
       </div>
-    </Link>
+    </div>
   );
 }
