@@ -2,6 +2,8 @@
 
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 
+import { useRouter } from "next/navigation";
+
 import {
   format,
   parse,
@@ -31,9 +33,8 @@ type Props = {
   activities: Activity[];
 };
 
-export default function CalendarView({
-  activities,
-}: Props) {
+export default function CalendarView({ activities, }: Props) {
+  const router = useRouter();
   const events = activities.map((activity) => {
     const start = new Date(
       `${activity.date}T${activity.time}`
@@ -58,6 +59,9 @@ export default function CalendarView({
         events={events}
         startAccessor="start"
         endAccessor="end"
+        onSelectEvent={(event: Activity) =>
+          router.push(`/activity/${event.id}`)
+        }
       />
     </div>
   );
