@@ -59,8 +59,8 @@ export default function ActivityDetailPage() {
       <div className="rounded-lg border bg-white p-6 shadow-sm">
         <div className="mb-3 flex items-center gap-2">
           <div
-            className={`h-3 w-3 rounded-full ${category?.color ?? "bg-gray-400"
-              }`}
+            className={`h-3 w-3 rounded-full`}
+            style={{ backgroundColor: category?.color}}
           />
           <span className="text-sm text-gray-600">
             {category?.name ?? "Unknown"}
